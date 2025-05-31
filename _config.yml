@@ -22,7 +22,7 @@ repository               : "n00rcps/n00rcps.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "profile.jpg"
   name             : "Nour Ali Eid ALHomaidat"
   pronouns         : # example: "she/her"  
   bio              : "Committed to advancing cybersecurity through research, teaching, and real-world impact"
