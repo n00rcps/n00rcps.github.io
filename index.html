@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nour ALHomaidat — NLP & Cybersecurity Researcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0c0f;
+      --surface: #111318;
+      --border: #1e2229;
+      --accent: #00e5c3;
+      --accent2: #ff6b6b;
+      --accent3: #ffc554;
+      --text: #d4dbe8;
+      --muted: #5a6275;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --display: 'Playfair Display', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,195,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,195,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(10,12,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 3rem 4rem;
+      gap: 4rem;
+      overflow: hidden;
+    }
+
+    .hero-orb {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,195,0.08) 0%, transparent 70%);
+      top: 50%;
+      right: -100px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+      50% { transform: translateY(-50%) scale(1.08); opacity: 1; }
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-title {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: #8a95a8;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.8rem;
+      border: 1px solid;
+      text-decoration: none;
+      transition: all 0.25s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.2rem 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      transition: border-color 0.2s;
+      animation: slideIn 0.6s both;
+    }
+
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .stat-icon {
+      font-size: 1.4rem;
+      width: 2.5rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: #8a95a8;
+      margin-bottom: 1.2rem;
+      line-height: 1.9;
+    }
+
+    .about-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .meta-row {
+      display: flex;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .meta-key {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,229,195,0.05);
+      padding: 0.7rem 1rem;
+      width: 130px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .meta-val {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text);
+      padding: 0.7rem 1rem;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ── RESEARCH ── */
+    .research-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+
+    .research-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.3s;
+    }
+
+    .research-card:hover { border-color: rgba(0,229,195,0.3); }
+    .research-card:hover::before { transform: scaleY(1); }
+
+    .research-card h3 {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 0.8rem;
+    }
+
+    .research-card p {
+      color: #8a95a8;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .tag.accent { border-color: rgba(0,229,195,0.4); color: var(--accent); }
+    .tag.red { border-color: rgba(255,107,107,0.4); color: var(--accent2); }
+    .tag.yellow { border-color: rgba(255,197,84,0.4); color: var(--accent3); }
+
+    /* ── EXPERIENCE ── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline-item:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.4rem;
+      top: 0.5rem;
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+      border-radius: 50%;
+    }
+
+    .timeline-date {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-title {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-org {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .timeline-desc {
+      color: #8a95a8;
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .skill-group-title {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .skill-group-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.9rem;
+    }
+
+    .skill-name {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text);
+    }
+
+    .skill-bar {
+      width: 80px;
+      height: 3px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: var(--accent);
+      animation: grow 1s both;
+    }
+
+    @keyframes grow {
+      from { width: 0 !important; }
+    }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.25s;
+    }
+
+    .cert-card:hover {
+      border-color: rgba(0,229,195,0.35);
+      transform: translateY(-2px);
+    }
+
+    .cert-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .cert-year {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ── PUBLICATIONS ── */
+    .pub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .pub-num {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-family: var(--mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: rgba(0,229,195,0.08);
+      line-height: 1;
+    }
+
+    .pub-title {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      max-width: 80%;
+    }
+
+    .pub-authors {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .pub-doi {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .pub-doi:hover { text-decoration: underline; }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--surface);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .contact-headline {
+      font-family: var(--display);
+      font-size: 2.5rem;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .contact-headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .contact-sub {
+      color: #8a95a8;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      background: rgba(0,229,195,0.03);
+    }
+
+    .contact-link-icon { font-size: 1.1rem; }
+
+    .contact-link-text {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text);
+    }
+
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .footer-accent {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      #hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+      .hero-orb { display: none; }
+      section { padding: 3.5rem 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero-name { font-size: 2.2rem; }
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">NA · Portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-orb"></div>
+    <div class="hero-left fade-in">
+      <p class="hero-tag">PhD Candidate · ICT</p>
+      <h1 class="hero-name">Nour <em>ALHomaidat</em></h1>
+      <p class="hero-title">
+        NLP &amp; Cybersecurity Researcher<br>
+        IT Officer · Al-Hussein Bin Talal University (MSc)
+      </p>
+      <p class="hero-desc">
+        Building NLP-driven autonomous security intelligence systems that fuse Large Language Models, 
+        Retrieval-Augmented Generation, and Reinforcement Learning to reason over complex cyber threats in real time.
+      </p>
+      <div class="hero-btns">
+        <a href="#research" class="btn btn-primary">View Research</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="stat-icon">🎓</div>
+        <div>
+          <div class="stat-label">Education</div>
+          <div class="stat-value">MSc Computer &amp; Networks Engineering — 84.69% Excellent</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔬</div>
+        <div>
+          <div class="stat-label">PhD Focus</div>
+          <div class="stat-value">NLP-Driven Autonomous Cybersecurity Intelligence</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div>
+          <div class="stat-label">Publications</div>
+          <div class="stat-value">Cyber-MEDS (2025) · IJECI Journal</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛡️</div>
+        <div>
+          <div class="stat-label">Industry</div>
+          <div class="stat-value">IT Officer · Jordan Industrial Ports Co. (2017–Present)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-num">01 —</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I am a cybersecurity and AI researcher with a strong foundation in both academia and industry. 
+          My doctoral research bridges the gap between cutting-edge Natural Language Processing and 
+          real-world autonomous security systems.
+        </p>
+        <p>
+          With over seven years of hands-on IT infrastructure experience at Jordan Industrial Ports Company, 
+          I bring a rare combination of operational depth and research rigor. I am particularly passionate about 
+          making language models more reliable, adversarially robust, and contextually grounded in security domains.
+        </p>
+        <p>
+          My work on <strong style="color: var(--accent)">Cyber-MEDS</strong> — a malicious email detection framework — 
+          was published in 2025 and represents an early demonstration of NLP applied to real cybersecurity threats.
+        </p>
+      </div>
+      <div class="about-meta">
+        <div class="meta-row">
+          <span class="meta-key">Nationality</span>
+          <span class="meta-val">Jordanian</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Languages</span>
+          <span class="meta-val">Arabic (native) · English (C1)</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">PhD Program</span>
+          <span class="meta-val">Information &amp; Communication Technologies</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">BSc</span>
+          <span class="meta-val">Computer Science · GPA 3.73 / 4.0 Excellent</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">MSc</span>
+          <span class="meta-val">Computer &amp; Networks Engineering · 84.69% Excellent</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Email</span>
+          <span class="meta-val">na662090@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="section-header">
+      <span class="section-num">02 —</span>
+      <h2 class="section-title">PhD Research</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="research-card">
+      <h3>NLP-Driven Reasoning for Autonomous Cybersecurity Intelligence</h3>
+      <p>
+        The dissertation develops an NLP-centric security reasoning system targeting three open problems: 
+        automated threat intelligence extraction from unstructured text (CVE databases, threat reports, logs); 
+        hallucination-resistant RAG grounded on NVD and MITRE ATT&amp;CK; and adversarially robust language 
+        understanding resilient to prompt injection. A PPO-based RL decision layer translates NLP outputs into 
+        adaptive threat responses.
+      </p>
+      <div class="tag-list">
+        <span class="tag accent">LLMs</span>
+        <span class="tag accent">RAG</span>
+        <span class="tag accent">NLP Security</span>
+        <span class="tag red">Prompt Injection</span>
+        <span class="tag red">Adversarial NLP</span>
+        <span class="tag yellow">RL / PPO</span>
+        <span class="tag yellow">CVE Reasoning</span>
+        <span class="tag">LLaMA 3</span>
+        <span class="tag">Mistral</span>
+        <span class="tag">LoRA</span>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:0">
+      <div class="research-card">
+        <h3>Gap 1 — Threat Intelligence Extraction</h3>
+        <p>LLMs frequently hallucinate CVE identifiers and misclassify vulnerability severity. 
+        This work introduces confidence-scored RAG with cross-reference verification and symbolic fallbacks to suppress hallucination.</p>
+        <div class="tag-list">
+          <span class="tag accent">Hallucination Mitigation</span>
+          <span class="tag">CVE Classification</span>
+        </div>
+      </div>
+      <div class="research-card">
+        <h3>Gap 2 — Domain-Grounded RAG</h3>
+        <p>Existing RAG pipelines are not optimised for structured security knowledge bases. 
+        This module implements dense retrieval over NVD, MITRE ATT&amp;CK, and ExploitDB with multi-hop CVE attack graph reasoning via MulVAL / Neo4j.</p>
+        <div class="tag-list">
+          <span class="tag accent">RAG</span>
+          <span class="tag">Knowledge Graphs</span>
+          <span class="tag">Neo4j</span>
+        </div>
+      </div>
+      <div class="research-card">
+        <h3>Gap 3 — Adversarial NLP Robustness</h3>
+        <p>Security LLMs are vulnerable to prompt injection embedded in logs and network payloads. 
+        This work constructs adversarial NLP test sets from real-world payloads and trains defensive prefix-tuning and input sanitisation layers.</p>
+        <div class="tag-list">
+          <span class="tag red">Prompt Injection</span>
+          <span class="tag">Adversarial Testing</span>
+        </div>
+      </div>
+      <div class="research-card">
+        <h3>RL Decision Layer</h3>
+        <p>A PPO-based MDP translates NLP reasoning into adaptive security actions. 
+        The reward function extends existing RL-for-security formulations with a novel NLP fidelity signal (δ · NLP_F) that rewards accurate CVE identification and low hallucination rates.</p>
+        <div class="tag-list">
+          <span class="tag yellow">PPO</span>
+          <span class="tag yellow">MDP</span>
+          <span class="tag">AUTOPENBENCH</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-num">03 —</span>
+      <h2 class="section-title">Experience &amp; Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem;">
+      <div>
+        <p style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem">Work Experience</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Nov 2017 — Present</div>
+            <div class="timeline-title">IT Officer</div>
+            <div class="timeline-org">Jordan Industrial Ports Company · Aqaba, Jordan</div>
+            <div class="timeline-desc">
+              Full IT infrastructure management including network design (VLANs, VPNs, routing, switching), 
+              server administration (Windows Server, Linux), virtualisation (VMware vSphere, Nutanix), 
+              security hardening (Fortinet, Snort, SIEM), and Microsoft 365 ecosystem management.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem">Education</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">2026 (Ongoing)</div>
+            <div class="timeline-title">PhD in ICT</div>
+            <div class="timeline-org">Information &amp; Communication Technologies</div>
+            <div class="timeline-desc">NLP-Driven Reasoning for Autonomous Cybersecurity Intelligence</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Oct 2020 — Aug 2023</div>
+            <div class="timeline-title">MSc Computer &amp; Networks Engineering</div>
+            <div class="timeline-org">Al-Hussein Bin Talal University · Jordan</div>
+            <div class="timeline-desc">Cumulative Average 84.69% — Rating: Excellent. Thesis completed Summer 2022/2023.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">2012 — 2016</div>
+            <div class="timeline-title">BSc Computer Science</div>
+            <div class="timeline-org">Aqaba University College / Al-Balqa' Applied University · Jordan</div>
+            <div class="timeline-desc">GPA 3.73 / 4.0 — Rating: Excellent. 132 total credit hours.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-num">04 —</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">AI &amp; NLP</div>
+        <div class="skill-item"><span class="skill-name">PyTorch / TensorFlow</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Transformers / LLMs</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">RAG Systems</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Reinforcement Learning</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cybersecurity</div>
+        <div class="skill-item"><span class="skill-name">Penetration Testing</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">SIEM / QRadar</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Fortinet / IDS/IPS</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Metasploit / Nmap</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Attack Graph (MulVAL)</span><div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Infrastructure</div>
+        <div class="skill-item"><span class="skill-name">Cisco / CCNA Networking</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">VMware vSphere</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Windows Server / AD</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Linux (Ubuntu / Kali)</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Microsoft 365</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Research Tools</div>
+        <div class="skill-item"><span class="skill-name">LaTeX</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Jupyter / Matplotlib</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Neo4j</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">SQL / MySQL</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Git</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="section-header">
+      <span class="section-num">05 —</span>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-card">
+        <div class="cert-icon">🌐</div>
+        <div>
+          <div class="cert-name">Cisco CCNA</div>
+          <div class="cert-year">2021 – 2024 · ID: CSCO14054135</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🛡️</div>
+        <div>
+          <div class="cert-name">Fortinet NSE 4 — FortiOS 7.2</div>
+          <div class="cert-year">December 2023</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🖥️</div>
+        <div>
+          <div class="cert-name">Microsoft MCSA — Windows Server 2016</div>
+          <div class="cert-year">September 2020 · No: H515-3663</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🔐</div>
+        <div>
+          <div class="cert-name">Cyber Security Engineering Program</div>
+          <div class="cert-year">2022–2023 · Ain Shams University · Very Good</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🤖</div>
+        <div>
+          <div class="cert-name">Python · Machine Learning · AI</div>
+          <div class="cert-year">Dec 2024 – Feb 2025 · Hope International Seal</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">☁️</div>
+        <div>
+          <div class="cert-name">VMware vSphere: Install, Configure, Manage v7</div>
+          <div class="cert-year">Feb – Mar 2024 · IPMasters</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🔎</div>
+        <div>
+          <div class="cert-name">Vulnerability Assessment</div>
+          <div class="cert-year">April 2025 · Udemy</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⚡</div>
+        <div>
+          <div class="cert-name">CEH · eCIR · IBM QRadar · Veeam</div>
+          <div class="cert-year">Additional Certifications</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-header">
+      <span class="section-num">06 —</span>
+      <h2 class="section-title">Publications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-num">01</div>
+      <div class="pub-title">Cyber-MEDS: Malicious Email Detection for Spam — A Framework for Web Security Against Cyber Attacks</div>
+      <div class="pub-authors">Muhammad Yasir Shabir, Nour Ali Eid ALHomaidat, Afshan Ahmed, Muhammad Nazir</div>
+      <div style="margin-bottom:0.5rem">
+        <span class="tag accent" style="font-size:0.6rem;padding:0.25rem 0.6rem">IJECI Journal · 2025</span>
+      </div>
+      <a class="pub-doi" href="https://doi.org/10.54692/ijeci.2025.0902/252" target="_blank">
+        doi: 10.54692/ijeci.2025.0902/252 →
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">07 —</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-headline">Let's <em>connect</em> and collaborate.</div>
+        <p class="contact-sub">
+          I'm open to PhD collaborations, research discussions, and opportunities in NLP security, 
+          AI-driven threat intelligence, and autonomous cybersecurity systems.
+        </p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:na662090@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <div>
+            <div class="contact-link-text">na662090@gmail.com</div>
+            <div class="contact-link-label">Email</div>
+          </div>
+        </a>
+        <a href="tel:+962789027722" class="contact-link">
+          <span class="contact-link-icon">📱</span>
+          <div>
+            <div class="contact-link-text">(+962) 789 027 722</div>
+            <div class="contact-link-label">Phone · Jordan</div>
+          </div>
+        </a>
+        <a href="https://doi.org/10.54692/ijeci.2025.0902/252" target="_blank" class="contact-link">
+          <span class="contact-link-icon">📄</span>
+          <div>
+            <div class="contact-link-text">Cyber-MEDS Publication</div>
+            <div class="contact-link-label">IJECI 2025</div>
+          </div>
+        </a>
+        <div class="contact-link" style="cursor:default">
+          <span class="contact-link-icon">📍</span>
+          <div>
+            <div class="contact-link-text">Aqaba, Jordan</div>
+            <div class="contact-link-label">Location</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2026 Nour ALHomaidat. All rights reserved.</span>
+    <span class="footer-accent">NLP · Cybersecurity · AI Research</span>
+  </footer>
+
+</body>
+</html>
