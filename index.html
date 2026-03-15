@@ -22,8 +22,214 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
+    /* ── HIDE DEFAULT CURSOR ── */
+    * { cursor: none !important; }
+
     body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; overflow-x: hidden; }
     body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,229,195,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,195,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+
+    /* ══════════════════════════════════════
+       CUSTOM CURSOR SYSTEM
+    ══════════════════════════════════════ */
+
+    /* Outer ring — slow follower */
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s, height 0.25s, border-color 0.2s, opacity 0.2s;
+      opacity: 0.7;
+    }
+    /* Crosshair lines on ring */
+    #cursor-ring::before,
+    #cursor-ring::after {
+      content: '';
+      position: absolute;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+    #cursor-ring::before { /* horizontal */
+      width: 10px; height: 1px;
+      top: 50%; left: -14px;
+      transform: translateY(-50%);
+      box-shadow: 40px 0 0 var(--accent);
+    }
+    #cursor-ring::after { /* vertical */
+      width: 1px; height: 10px;
+      left: 50%; top: -14px;
+      transform: translateX(-50%);
+      box-shadow: 0 40px 0 var(--accent);
+    }
+
+    /* Inner dot — precise position */
+    #cursor-dot {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent);
+      transition: width 0.15s, height 0.15s, background 0.15s;
+    }
+
+    /* Scan label that appears near cursor */
+    #cursor-label {
+      position: fixed;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      pointer-events: none;
+      z-index: 99999;
+      opacity: 0;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+      text-shadow: 0 0 8px var(--accent);
+    }
+
+    /* Trailing particles container */
+    .cursor-trail {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      animation: trailFade 0.6s forwards;
+    }
+    @keyframes trailFade {
+      0%   { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 0;   transform: scale(0.2); }
+    }
+
+    /* HOVER STATE — clickable elements */
+    body.cursor-hover #cursor-ring {
+      width: 52px;
+      height: 52px;
+      border-color: var(--accent);
+      opacity: 1;
+      border-style: dashed;
+      animation: rotateCursor 3s linear infinite;
+    }
+    body.cursor-hover #cursor-dot {
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+    }
+    body.cursor-hover #cursor-label { opacity: 1; }
+
+    @keyframes rotateCursor {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* CLICK flash */
+    body.cursor-click #cursor-ring {
+      width: 60px;
+      height: 60px;
+      border-color: var(--accent2);
+      opacity: 1;
+    }
+    body.cursor-click #cursor-dot {
+      background: var(--accent2);
+      box-shadow: 0 0 12px var(--accent2), 0 0 24px var(--accent2);
+    }
+
+    /* ── SCAN RIPPLE on click ── */
+    .scan-ripple {
+      position: fixed;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      pointer-events: none;
+      z-index: 99997;
+      animation: rippleOut 0.7s ease-out forwards;
+      transform: translate(-50%, -50%);
+    }
+    @keyframes rippleOut {
+      0%   { width: 0;    height: 0;    opacity: 0.8; }
+      100% { width: 80px; height: 80px; opacity: 0; }
+    }
+
+    /* ══════════════════════════════════════
+       ELEMENT HOVER EFFECTS
+    ══════════════════════════════════════ */
+
+    /* Cards — glow on hover */
+    .stat-card, .research-card, .cert-card, .soft-card,
+    .project-card, .pub-card, .rec-card, .timeline-item {
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    }
+    .stat-card:hover, .cert-card:hover, .soft-card:hover {
+      box-shadow: 0 0 0 1px rgba(0,229,195,0.15), 0 0 20px rgba(0,229,195,0.06);
+    }
+    .research-card:hover, .project-card:hover, .pub-card:hover, .rec-card:hover {
+      box-shadow: 0 0 0 1px rgba(0,229,195,0.2), 0 4px 32px rgba(0,229,195,0.07);
+    }
+
+    /* Nav links — underline scan effect */
+    .nav-links a {
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: -100%;
+      width: 100%;
+      height: 1px;
+      background: var(--accent);
+      transition: left 0.25s;
+    }
+    .nav-links a:hover::after { left: 0; }
+
+    /* Buttons — scan sweep */
+    .btn { position: relative; overflow: hidden; }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,229,195,0.15), transparent);
+      transition: left 0.4s;
+    }
+    .btn:hover::before { left: 100%; }
+
+    /* Meta rows */
+    .meta-row { transition: background 0.2s; }
+    .meta-row:hover { background: rgba(0,229,195,0.03); }
+
+    /* Timeline items */
+    .timeline-item {
+      transition: padding-left 0.2s;
+    }
+    .timeline-item:hover { padding-left: 0.5rem; }
+
+    /* Contact links */
+    .contact-link { transition: border-color 0.25s, background 0.25s, transform 0.15s; }
+    .contact-link:hover { transform: translateX(4px); }
+
+    /* skill bars — glow on group hover */
+    .skill-group:hover .skill-fill {
+      box-shadow: 0 0 8px rgba(0,229,195,0.4);
+    }
+
+    /* rec cards */
+    .rec-card:hover {
+      box-shadow: 0 0 0 1px rgba(0,229,195,0.2), 0 4px 24px rgba(0,229,195,0.05);
+    }
+
+    /* ══════════════════════════════════════
+       ALL ORIGINAL STYLES
+    ══════════════════════════════════════ */
 
     /* NAV */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 3rem; background: rgba(10,12,15,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
@@ -85,7 +291,8 @@
     .research-card h3 { font-family: var(--display); font-size: 1.2rem; color: #fff; margin-bottom: 0.8rem; }
     .research-card p { color: #8a95a8; font-size: 0.9rem; line-height: 1.8; margin-bottom: 1rem; }
     .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid var(--border); color: var(--muted); }
+    .tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid var(--border); color: var(--muted); transition: border-color 0.2s, color 0.2s; }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
     .tag.accent { border-color: rgba(0,229,195,0.4); color: var(--accent); }
     .tag.red { border-color: rgba(255,107,107,0.4); color: var(--accent2); }
     .tag.yellow { border-color: rgba(255,197,84,0.4); color: var(--accent3); }
@@ -95,7 +302,8 @@
     .timeline::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0; width: 1px; background: var(--border); }
     .timeline-item { position: relative; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
     .timeline-item:last-child { border-bottom: none; margin-bottom: 0; }
-    .timeline-dot { position: absolute; left: -2.4rem; top: 0.5rem; width: 10px; height: 10px; border: 2px solid var(--accent); background: var(--bg); border-radius: 50%; }
+    .timeline-dot { position: absolute; left: -2.4rem; top: 0.5rem; width: 10px; height: 10px; border: 2px solid var(--accent); background: var(--bg); border-radius: 50%; transition: box-shadow 0.2s, background 0.2s; }
+    .timeline-item:hover .timeline-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
     .timeline-date { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
     .timeline-title { font-family: var(--display); font-size: 1.1rem; color: #fff; margin-bottom: 0.3rem; }
     .timeline-org { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem; }
@@ -105,7 +313,8 @@
 
     /* SKILLS */
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-    .skill-group { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; }
+    .skill-group { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; transition: border-color 0.25s; }
+    .skill-group:hover { border-color: rgba(0,229,195,0.25); }
     .skill-group-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
     .skill-group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .skill-item { display: flex; flex-direction: column; margin-bottom: 1.2rem; gap: 0.4rem; }
@@ -114,7 +323,7 @@
     .skill-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); }
     .skill-bar-wrap { position: relative; width: 100%; }
     .skill-bar { width: 100%; height: 4px; background: var(--border); position: relative; }
-    .skill-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, rgba(0,229,195,0.6), var(--accent)); animation: grow 1.2s cubic-bezier(0.4,0,0.2,1) both; }
+    .skill-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, rgba(0,229,195,0.6), var(--accent)); animation: grow 1.2s cubic-bezier(0.4,0,0.2,1) both; transition: box-shadow 0.25s; }
     @keyframes grow { from { width: 0 !important; } }
     .skill-ticks { display: flex; justify-content: space-between; margin-top: 3px; }
     .skill-ticks span { font-family: var(--mono); font-size: 0.5rem; color: var(--muted); line-height: 1; width: calc(100% / 10); text-align: center; }
@@ -123,16 +332,16 @@
 
     /* SOFT SKILLS */
     .soft-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-    .soft-card { background: var(--surface); border: 1px solid var(--border); padding: 1.3rem 1.5rem; transition: border-color 0.25s; }
-    .soft-card:hover { border-color: rgba(0,229,195,0.3); }
+    .soft-card { background: var(--surface); border: 1px solid var(--border); padding: 1.3rem 1.5rem; transition: border-color 0.25s, transform 0.2s; }
+    .soft-card:hover { border-color: rgba(0,229,195,0.3); transform: translateY(-2px); }
     .soft-card-title { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
     .soft-card-text { font-size: 0.83rem; color: #8a95a8; line-height: 1.7; }
 
     /* PROJECTS */
     .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .project-card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; transition: border-color 0.25s; position: relative; overflow: hidden; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; transition: border-color 0.25s, transform 0.2s; position: relative; overflow: hidden; }
     .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent3); transform: scaleY(0); transform-origin: top; transition: transform 0.3s; }
-    .project-card:hover { border-color: rgba(255,197,84,0.3); }
+    .project-card:hover { border-color: rgba(255,197,84,0.3); transform: translateY(-2px); }
     .project-card:hover::before { transform: scaleY(1); }
     .project-date { font-family: var(--mono); font-size: 0.62rem; color: var(--accent3); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
     .project-title { font-family: var(--display); font-size: 1rem; color: #fff; margin-bottom: 0.5rem; }
@@ -147,7 +356,8 @@
     .cert-year { font-family: var(--mono); font-size: 0.58rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
 
     /* PUBLICATIONS */
-    .pub-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem; position: relative; }
+    .pub-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem; position: relative; transition: border-color 0.25s; }
+    .pub-card:hover { border-color: rgba(0,229,195,0.3); }
     .pub-num { position: absolute; top: 1.5rem; right: 1.5rem; font-family: var(--mono); font-size: 2.5rem; font-weight: 700; color: rgba(0,229,195,0.08); line-height: 1; }
     .pub-title { font-family: var(--display); font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; max-width: 80%; }
     .pub-authors { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-bottom: 0.5rem; }
@@ -178,7 +388,7 @@
     .contact-sub { color: #8a95a8; font-size: 0.9rem; line-height: 1.8; }
     .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
     .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border: 1px solid var(--border); text-decoration: none; transition: all 0.25s; }
-    .contact-link:hover { border-color: var(--accent); background: rgba(0,229,195,0.03); }
+    .contact-link:hover { border-color: var(--accent); background: rgba(0,229,195,0.03); transform: translateX(4px); }
     .contact-link-icon { font-size: 1.1rem; }
     .contact-link-text { font-family: var(--mono); font-size: 0.75rem; color: var(--text); }
     .contact-link-label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.1rem; }
@@ -190,6 +400,8 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
+      * { cursor: auto !important; }
+      #cursor-ring, #cursor-dot, #cursor-label { display: none; }
       nav { padding: 1rem 1.5rem; }
       #hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
       .hero-orb { display: none; }
@@ -202,6 +414,11 @@
   </style>
 </head>
 <body>
+
+  <!-- ═══ CUSTOM CURSOR ELEMENTS ═══ -->
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-label">SCAN</div>
 
   <nav>
     <div class="nav-logo">NA · Portfolio</div>
@@ -222,7 +439,7 @@
   <section id="hero">
     <div class="hero-orb"></div>
     <div class="hero-left fade-in">
-      <p class="hero-tag">PhD Candidate · ICT</p>
+      <!-- <p class="hero-tag">PhD Candidate · ICT</p> -->
       <h1 class="hero-name">Nour <em>ALHomaidat</em></h1>
       <p class="hero-title">NLP &amp; Cybersecurity Researcher · IT Officer<br>MSc Computer &amp; Networks Engineering · Al-Hussein Bin Talal University</p>
       <p class="hero-desc">Passionate cybersecurity researcher and IT professional building NLP-driven autonomous security intelligence systems that fuse Large Language Models, Retrieval-Augmented Generation, and Reinforcement Learning to reason over complex cyber threats in real time.</p>
@@ -291,30 +508,21 @@
             <div class="timeline-date">Nov 2017 — Present</div>
             <div class="timeline-title">IT Officer</div>
             <div class="timeline-org">Jordan Industrial Ports Company · Aqaba, Jordan · <a href="https://www.jipc-jo.com/" style="color:var(--accent);text-decoration:none" target="_blank">jipc-jo.com</a></div>
-            <div class="timeline-desc">
-              <ul>
-                <li>Manage full IT infrastructure: hardware, software, enterprise networks</li>
-                <li>Network design and deployment: VLANs, VPNs, routing, switching, link aggregation</li>
-                <li>Server administration: Windows Server, Linux, Active Directory, Domain Controllers, file servers</li>
-                <li>Virtualisation: VMware vSphere, Nutanix infrastructure</li>
-                <li>Security hardening: Fortinet appliances, Snort IDS/IPS, SIEM configuration</li>
-                <li>Microsoft 365 ecosystem: Exchange, SharePoint, Teams, OneDrive</li>
-                <li>Backup &amp; disaster recovery with Veeam; IP phone system administration</li>
-              </ul>
-            </div>
+            <div class="timeline-desc"><ul>
+              <li>Manage full IT infrastructure: hardware, software, enterprise networks</li>
+              <li>Network design and deployment: VLANs, VPNs, routing, switching, link aggregation</li>
+              <li>Server administration: Windows Server, Linux, Active Directory, Domain Controllers, file servers</li>
+              <li>Virtualisation: VMware vSphere, Nutanix infrastructure</li>
+              <li>Security hardening: Fortinet appliances, Snort IDS/IPS, SIEM configuration</li>
+              <li>Microsoft 365 ecosystem: Exchange, SharePoint, Teams, OneDrive</li>
+              <li>Backup &amp; disaster recovery with Veeam; IP phone system administration</li>
+            </ul></div>
           </div>
         </div>
       </div>
       <div>
         <p style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem">Education</p>
         <div class="timeline">
-          <!-- <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">2026 — Ongoing</div>
-            <div class="timeline-title">PhD · Information &amp; Communication Technologies</div>
-            <div class="timeline-org">NLP-Driven Reasoning for Autonomous Cybersecurity Intelligence</div>
-            <div class="timeline-desc">Doctoral research integrating NLP, LLMs, RAG, and RL for autonomous security reasoning and threat intelligence.</div>
-          </div> -->
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-date">Oct 2020 — Aug 2023</div>
@@ -371,7 +579,6 @@
         <div class="skill-item"><div class="skill-item-row"><span class="skill-name">Git / EVE-NG / Packet Tracer</span><span class="skill-pct">80</span></div><div class="skill-bar-wrap"><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div><div class="skill-ticks"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div></div></div>
       </div>
     </div>
-
     <div style="margin-top:2.5rem">
       <p style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem">Soft Skills</p>
       <div class="soft-grid">
@@ -485,5 +692,131 @@
     <span class="footer-accent">NLP · Cybersecurity · AI Research</span>
   </footer>
 
+  <!-- ═══════════════════════════════════
+       CURSOR ENGINE
+  ═══════════════════════════════════ -->
+  <script>
+    const ring  = document.getElementById('cursor-ring');
+    const dot   = document.getElementById('cursor-dot');
+    const label = document.getElementById('cursor-label');
+    const body  = document.body;
+
+    let mouseX = 0, mouseY = 0;
+    let ringX  = 0, ringY  = 0;
+
+    // Map element types to scan labels
+    const LABELS = {
+      A:        'NAVIGATE',
+      BUTTON:   'EXECUTE',
+      INPUT:    'INPUT',
+      TEXTAREA: 'INPUT',
+    };
+    const CLASS_LABELS = {
+      'stat-card':    'PING',
+      'research-card':'ANALYSE',
+      'cert-card':    'VERIFY',
+      'soft-card':    'PROBE',
+      'project-card': 'INSPECT',
+      'pub-card':     'READ',
+      'rec-card':     'TRUST',
+      'contact-link': 'CONNECT',
+      'btn':          'EXECUTE',
+      'tag':          'FILTER',
+    };
+
+    function getLabelFor(el) {
+      if (!el) return 'SCAN';
+      const tag = el.tagName;
+      if (LABELS[tag]) return LABELS[tag];
+      for (const [cls, lbl] of Object.entries(CLASS_LABELS)) {
+        if (el.classList.contains(cls)) return lbl;
+        // walk up 3 levels
+        let p = el.parentElement;
+        for (let i = 0; i < 3 && p; i++, p = p.parentElement) {
+          if (p.classList && p.classList.contains(cls)) return lbl;
+        }
+      }
+      return 'SCAN';
+    }
+
+    // Smooth ring follow
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top  = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Dot is instant
+      dot.style.left = e.clientX + 'px';
+      dot.style.top  = e.clientY + 'px';
+
+      // Label offset (top-right of cursor)
+      label.style.left = (e.clientX + 20) + 'px';
+      label.style.top  = (e.clientY - 14) + 'px';
+
+      // Tiny teal trail particle
+      if (Math.random() < 0.3) {
+        const t = document.createElement('div');
+        t.className = 'cursor-trail';
+        const size = Math.random() * 4 + 2;
+        t.style.cssText = `
+          left:${e.clientX}px; top:${e.clientY}px;
+          width:${size}px; height:${size}px;
+          background: rgba(0,229,195,${Math.random() * 0.4 + 0.1});
+          transform: translate(-50%,-50%);
+        `;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 600);
+      }
+    });
+
+    // Hover detection
+    document.addEventListener('mouseover', e => {
+      const el = e.target;
+      const isInteractive = el.closest('a, button, [onclick], .stat-card, .research-card, .cert-card, .soft-card, .project-card, .pub-card, .rec-card, .contact-link, .btn, .tag, .timeline-item');
+      if (isInteractive) {
+        body.classList.add('cursor-hover');
+        label.textContent = getLabelFor(isInteractive);
+      } else {
+        body.classList.remove('cursor-hover');
+        label.textContent = 'SCAN';
+      }
+    });
+
+    // Click effect
+    document.addEventListener('mousedown', e => {
+      body.classList.add('cursor-click');
+
+      // Scan ripple
+      const r = document.createElement('div');
+      r.className = 'scan-ripple';
+      r.style.left = e.clientX + 'px';
+      r.style.top  = e.clientY + 'px';
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), 700);
+    });
+
+    document.addEventListener('mouseup', () => {
+      body.classList.remove('cursor-click');
+    });
+
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity  = '0';
+      ring.style.opacity = '0';
+      label.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity  = '1';
+      ring.style.opacity = '0.7';
+    });
+  </script>
 </body>
 </html>
