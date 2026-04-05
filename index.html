@@ -173,6 +173,15 @@
     .research-card:hover, .project-card:hover, .pub-card:hover, .rec-card:hover {
       box-shadow: 0 0 0 1px rgba(0,229,195,0.2), 0 4px 32px rgba(0,229,195,0.07);
     }
+    
+    #progress-bar {
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  height: 2px;
+                  background: var(--accent);
+                  width: 0%;
+                }
 
     /* Nav links — underline scan effect */
     .nav-links a {
@@ -380,6 +389,148 @@
     .rec-contact a { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-decoration: none; }
     .rec-contact a:hover { color: var(--accent); }
 
+    /* ── BLOG ── */
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+    }
+    .blog-card:hover {
+      border-color: rgba(0,229,195,0.4);
+      box-shadow: 0 0 0 1px rgba(0,229,195,0.1), 0 8px 40px rgba(0,229,195,0.07);
+    }
+    .blog-card-visual {
+      background: #0d1117;
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.2rem;
+      padding: 2rem;
+    }
+    /* animated terminal lines */
+    .blog-card-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,229,195,0.02) 2px,
+        rgba(0,229,195,0.02) 4px
+      );
+      pointer-events: none;
+    }
+    .blog-term {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+      width: 100%;
+      opacity: 0.85;
+    }
+    .blog-term .dim  { color: var(--muted); }
+    .blog-term .hit  { color: var(--accent3); }
+    .blog-term .flag { color: var(--accent2); font-weight: 700; }
+    .blog-term .ok   { color: #4ade80; }
+    .blog-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid rgba(255,107,107,0.35);
+      padding: 0.3rem 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .blog-card-content {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .blog-meta {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1.2rem;
+    }
+    .blog-meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .blog-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 1.2rem;
+    }
+    .blog-intro {
+      font-size: 0.88rem;
+      color: #8a95a8;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .blog-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+    }
+    .blog-task {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      font-size: 0.82rem;
+      color: #8a95a8;
+    }
+    .blog-task-num {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--accent);
+      background: rgba(0,229,195,0.08);
+      border: 1px solid rgba(0,229,195,0.2);
+      padding: 0.1rem 0.4rem;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .blog-read-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 0.7rem 1.5rem;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      align-self: flex-start;
+    }
+    .blog-read-btn:hover {
+      background: transparent;
+      color: var(--accent);
+      outline: 1px solid var(--accent);
+    }
+    .blog-read-btn svg { width: 12px; height: 12px; fill: currentColor; }
+
     /* CONTACT */
     #contact { background: var(--surface); }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
@@ -406,7 +557,7 @@
       #hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
       .hero-orb { display: none; }
       section { padding: 3.5rem 1.5rem; }
-      .about-grid, .contact-grid, .rec-grid, .project-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-grid, .contact-grid, .rec-grid, .project-grid, .blog-card { grid-template-columns: 1fr; gap: 2rem; }
     }
     @media (max-width: 600px) { .nav-links { display: none; } .hero-name { font-size: 2.2rem; } }
     .fade-in { opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s forwards; }
@@ -431,6 +582,7 @@
       <li><a href="#publications">Publications</a></li>
       <li><a href="#certifications">Certs</a></li>
       <li><a href="#recommendations">References</a></li>
+      <li><a href="#blog">Blog</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -475,7 +627,7 @@
         <div class="meta-row"><span class="meta-key">Languages</span><span class="meta-val">Arabic (native) · English (C1 R/W, B2 Speaking)</span></div>
         <div class="meta-row"><span class="meta-key">MSc</span><span class="meta-val">Computer &amp; Networks Engineering · 84.69/100</span></div>
         <div class="meta-row"><span class="meta-key">BSc</span><span class="meta-val">Computer Science · GPA 3.73 / 4.0 Excellent</span></div>
-        <div class="meta-row"><span class="meta-key">Email</span><span class="meta-val">na662090@gmail.com</span></div>
+        <div class="meta-row"><span class="meta-key">Email</span><span class="meta-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4826297e7e7a787178082f25292124662b2725">[email&#160;protected]</a></span></div>
       </div>
     </div>
   </section>
@@ -648,7 +800,7 @@
           <li>Valued for determination, goal orientation, and consistent progress once objectives are set</li>
         </ul>
         <div class="rec-contact">
-          <a href="mailto:khaled.matrouk@ahu.edu.jo">khaled.matrouk@ahu.edu.jo</a>
+          <a href="/cdn-cgi/l/email-protection#e68d8e878a8382c88b87929489938da6878e93c8838293c88c89"><span class="__cf_email__" data-cfemail="73181b121f16175d1e1207011c061833121b065d1617065d191c">[email&#160;protected]</span></a>
           <span style="color:var(--muted)"> · (+962) 321790007545</span>
         </div>
       </div>
@@ -664,16 +816,92 @@
           <li>Expected to make meaningful contributions to research and knowledge advancement in her field</li>
         </ul>
         <div class="rec-contact">
-          <a href="mailto:bilal@bilal-qudah.com">bilal@bilal-qudah.com</a>
+          <a href="/cdn-cgi/l/email-protection#74161d18151834161d18151859050110151c5a171b19"><span class="__cf_email__" data-cfemail="f2909b9e939eb2909b9e939edf838796939adc919d9f">[email&#160;protected]</span></a>
           <span style="color:var(--muted)"> · (+962) 790633797</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="section-header"><span class="section-num">09 —</span><h2 class="section-title">Blog &amp; Write-ups</h2><div class="section-line"></div></div>
+
+    <a class="blog-card" href="https://medium.com/@na662090/osint-challenge-iv-digital-footprint-walkthrough-tryhackme-079b5e51a26c" target="_blank">
+
+      <!-- LEFT — animated terminal visual -->
+      <div class="blog-card-visual">
+        <div class="blog-badge">
+          <span>●</span> TryHackMe · OSINT
+        </div>
+        <div class="blog-term">
+          <div><span class="dim">$ </span>exiftool edited-house.jpg</div>
+          <div><span class="dim">GPS Latitude  : </span><span class="hit">26 deg 12' 14.76" S</span></div>
+          <div><span class="dim">GPS Longitude : </span><span class="hit">28 deg 2' 50.28" E</span></div>
+          <div><span class="dim">GPS Position  : </span><span class="ok">Johannesburg, ZA</span></div>
+          <div>&nbsp;</div>
+          <div><span class="dim">$ </span>archive.org search warc-acme.com</div>
+          <div><span class="dim">Firstfiledate : </span><span class="hit">20160210224602</span></div>
+          <div><span class="dim">Founded 2025? </span><span class="flag">FALSE — exists since 2016</span></div>
+          <div>&nbsp;</div>
+          <div><span class="dim">$ </span>grep "dc:creator" meta.xml</div>
+          <div><span class="dim">username : </span><span class="ok">@markwilliams7243</span></div>
+          <div>&nbsp;</div>
+          <div><span class="dim">Flags captured: </span><span class="flag">4 / 4 ✓</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT — article content -->
+      <div class="blog-card-content">
+        <div>
+          <div class="blog-meta">
+            <span>📅 Feb 23, 2026</span>
+            <span>⏱ 5 min read</span>
+            <span>🔗 Medium</span>
+          </div>
+          <div class="blog-title">OSINT Challenge IV — Digital Footprint Walkthrough (TryHackMe)</div>
+          <div class="blog-intro">
+            A structured, beginner-friendly OSINT investigation demonstrating how harmless public data — a photograph, an archived website, a street-view landmark, and a leaked document — combine to expose an organisation's full digital footprint. Starting from a single leaked employee photo of ACME Jet Solutions, the investigation uncovers four flags using real-world intelligence techniques.
+          </div>
+          <div class="blog-tasks">
+            <div class="blog-task">
+              <span class="blog-task-num">T1</span>
+              <span><strong style="color:var(--text)">Geolocating the Leaked Photo</strong> — Extract GPS EXIF metadata with ExifTool and resolve coordinates to Johannesburg, South Africa via Google Maps.</span>
+            </div>
+            <div class="blog-task">
+              <span class="blog-task-num">T2</span>
+              <span><strong style="color:var(--text)">Verifying Company History</strong> — Search the Internet Archive for a WARC forensic web capture proving the site existed in February 2016, debunking the "founded 2025" claim.</span>
+            </div>
+            <div class="blog-task">
+              <span class="blog-task-num">T3</span>
+              <span><strong style="color:var(--text)">Identifying the Landmark</strong> — Reverse image search identifies the Spire of Dublin; Street View confirms the adjacent building is the General Post Office (GPO).</span>
+            </div>
+            <div class="blog-task">
+              <span class="blog-task-num">T4</span>
+              <span><strong style="color:var(--text)">Attributing the Internal Document</strong> — Rename .odt → .zip, extract meta.xml, and pivot the username <code style="color:var(--accent);font-size:0.78rem">@markwilliams7243</code> to a YouTube channel to capture the final flag.</span>
+            </div>
+          </div>
+          <div class="tag-list" style="margin-bottom:1.5rem">
+            <span class="tag red">OSINT</span>
+            <span class="tag accent">EXIF Metadata</span>
+            <span class="tag accent">Wayback Machine</span>
+            <span class="tag">Reverse Image Search</span>
+            <span class="tag yellow">TryHackMe</span>
+            <span class="tag">ExifTool</span>
+            <span class="tag">Document Forensics</span>
+          </div>
+        </div>
+        <a class="blog-read-btn" href="https://medium.com/@na662090/osint-challenge-iv-digital-footprint-walkthrough-tryhackme-079b5e51a26c" target="_blank">
+          Read Full Article
+          <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/><path stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </a>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact">
-    <div class="section-header"><span class="section-num">09 —</span><h2 class="section-title">Contact</h2><div class="section-line"></div></div>
+    <div class="section-header"><span class="section-num">10 —</span><h2 class="section-title">Contact</h2><div class="section-line"></div></div>
     <div class="contact-grid">
       <div>
         <div class="contact-headline">Let's <em>connect</em> and collaborate.</div>
@@ -681,6 +909,7 @@
       </div>
       <div class="contact-links">
         <a href="mailto:na662090@gmail.com" class="contact-link"><span class="contact-link-icon">✉️</span><div><div class="contact-link-text">na662090@gmail.com</div><div class="contact-link-label">Email</div></div></a>
+        <a href="https://medium.com/@na662090" target="_blank" class="contact-link"><span class="contact-link-icon">✍️</span><div><div class="contact-link-text">medium.com/@na662090</div><div class="contact-link-label">Blog · OSINT &amp; Cybersecurity Write-ups</div></div></a>
         <a href="https://doi.org/10.54692/ijeci.2025.0902/252" target="_blank" class="contact-link"><span class="contact-link-icon">📄</span><div><div class="contact-link-text">Cyber-MEDS Publication</div><div class="contact-link-label">IJECI 2025 · doi: 10.54692/ijeci.2025.0902/252</div></div></a>
         <a href="https://www.jipc-jo.com/" target="_blank" class="contact-link"><span class="contact-link-icon">🏢</span><div><div class="contact-link-text">Jordan Industrial Ports Company</div><div class="contact-link-label">Current Employer · jipc-jo.com</div></div></a>
       </div>
@@ -695,6 +924,7 @@
   <!-- ═══════════════════════════════════
        CURSOR ENGINE
   ═══════════════════════════════════ -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
     const ring  = document.getElementById('cursor-ring');
     const dot   = document.getElementById('cursor-dot');
@@ -720,6 +950,8 @@
       'pub-card':     'READ',
       'rec-card':     'TRUST',
       'contact-link': 'CONNECT',
+      'blog-card':    'READ',
+      'blog-read-btn':'OPEN',
       'btn':          'EXECUTE',
       'tag':          'FILTER',
     };
@@ -730,7 +962,6 @@
       if (LABELS[tag]) return LABELS[tag];
       for (const [cls, lbl] of Object.entries(CLASS_LABELS)) {
         if (el.classList.contains(cls)) return lbl;
-        // walk up 3 levels
         let p = el.parentElement;
         for (let i = 0; i < 3 && p; i++, p = p.parentElement) {
           if (p.classList && p.classList.contains(cls)) return lbl;
@@ -739,7 +970,6 @@
       return 'SCAN';
     }
 
-    // Smooth ring follow
     function animateRing() {
       ringX += (mouseX - ringX) * 0.12;
       ringY += (mouseY - ringY) * 0.12;
@@ -753,15 +983,12 @@
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      // Dot is instant
       dot.style.left = e.clientX + 'px';
       dot.style.top  = e.clientY + 'px';
 
-      // Label offset (top-right of cursor)
       label.style.left = (e.clientX + 20) + 'px';
       label.style.top  = (e.clientY - 14) + 'px';
 
-      // Tiny teal trail particle
       if (Math.random() < 0.3) {
         const t = document.createElement('div');
         t.className = 'cursor-trail';
@@ -777,10 +1004,9 @@
       }
     });
 
-    // Hover detection
     document.addEventListener('mouseover', e => {
       const el = e.target;
-      const isInteractive = el.closest('a, button, [onclick], .stat-card, .research-card, .cert-card, .soft-card, .project-card, .pub-card, .rec-card, .contact-link, .btn, .tag, .timeline-item');
+      const isInteractive = el.closest('a, button, [onclick], .stat-card, .research-card, .cert-card, .soft-card, .project-card, .pub-card, .rec-card, .contact-link, .blog-card, .blog-read-btn, .btn, .tag, .timeline-item');
       if (isInteractive) {
         body.classList.add('cursor-hover');
         label.textContent = getLabelFor(isInteractive);
@@ -790,11 +1016,9 @@
       }
     });
 
-    // Click effect
     document.addEventListener('mousedown', e => {
       body.classList.add('cursor-click');
 
-      // Scan ripple
       const r = document.createElement('div');
       r.className = 'scan-ripple';
       r.style.left = e.clientX + 'px';
@@ -807,7 +1031,6 @@
       body.classList.remove('cursor-click');
     });
 
-    // Hide cursor when leaving window
     document.addEventListener('mouseleave', () => {
       dot.style.opacity  = '0';
       ring.style.opacity = '0';
@@ -815,7 +1038,8 @@
     });
     document.addEventListener('mouseenter', () => {
       dot.style.opacity  = '1';
-      ring.style.opacity = '0.7';
+      ring.style.opacity = body.classList.contains('cursor-hover') ? '1' : '0.7';
+      label.style.opacity = body.classList.contains('cursor-hover') ? '1' : '0';
     });
   </script>
 </body>
